@@ -16,7 +16,7 @@ class monitor:
             print("你的主机-'{}'内存空间已使用{}%，超过{}%，请注意!".format(cls.host, used, max))
 
     @classmethod
-    def cpu(cls, max=20):
+    def cpu(cls, max=1):
         used = psutil.cpu_percent(1)   #interval is 1 second
         if used > max:
             #cls.mail("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
