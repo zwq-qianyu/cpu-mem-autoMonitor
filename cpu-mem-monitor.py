@@ -4,24 +4,30 @@
 import psutil, time
 
 class monitor:
-    #get the hostname
+    # get the hostname
     host = psutil.users()[0].name
+
+    cpu_data = []
 
     @classmethod
     def mem(cls, max=65):
         used = psutil.virtual_memory().percent
         if used > max:
-            #cls.mail("你的主机-'{}'内存空间已使用{}%，超过{}%，请注意!".format(cls.host, used, max))
+            cls.mail("你的主机-'{}'内存空间已使用{}%，超过{}%，请注意!".format(cls.host, used, max))
             cls.wechat("你的主机-'{}'内存空间已使用{}%，超过{}%，请注意!".format(cls.host, used, max))
             print("你的主机-'{}'内存空间已使用{}%，超过{}%，请注意!".format(cls.host, used, max))
 
     @classmethod
-    def cpu(cls, max=1):
+    def cpu(cls, max=20):
         used = psutil.cpu_percent(1)   #interval is 1 second
-        if used > max:
-            #cls.mail("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
-            cls.wechat("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
-            print("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
+        cls.cpu_data.append(used)
+        if len(cls.cpu_data) >= 3:
+            avg = sum(cls.cpu_data) / len(cls.cpu_data)
+            if used > max:
+                cls.mail("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
+                cls.wechat("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
+                print("你的主机-[{}]cpu负载已达到{}%，超过{}%，请注意！".format(cls.host, used, max))
+            cls.cpu_data.pop()
 
     @classmethod
     def mail(cls, content):
@@ -79,5 +85,5 @@ class monitor:
         cls.mem()
         cls.cpu()
 
-
-monitor.send_msg()
+while True:
+    monitor.send_msg()
