@@ -33,7 +33,7 @@ class monitor:
 
         # sender info
         sender = "847497935@qq.com"
-        password = "ccniqwgpieokbaii"
+        password = "<qq邮箱授权码>"         #邮箱密码或授权码        
 
         # getter info
         receiver = "1347638091@qq.com"
