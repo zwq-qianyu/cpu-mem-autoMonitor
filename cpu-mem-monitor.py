@@ -1,5 +1,6 @@
 '''自动监控Linux服务器并发送警报消息到邮箱和微信中'''
-# 需要安装 psutil 和 wechatpy
+# 需要安装 psutil 和 wechatpy ，还有 pycrypto 或者 cryptography
+# pip install pycrypto  cryptography  2选1
 # pip3 install psutil wechatpy
 import psutil, time
 
